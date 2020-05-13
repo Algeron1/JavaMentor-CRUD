@@ -1,6 +1,5 @@
 package DAO;
 
-import DAOImpl.UserDAO;
 import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,12 +9,12 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 
-public class UserHibernateDAO implements UserDAO {
+public class UserHibernateDAOImpl implements UserDAO {
 
     private final SessionFactory sessionFactory;
 
 
-    public UserHibernateDAO(SessionFactory sessionFactory) {
+    public UserHibernateDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

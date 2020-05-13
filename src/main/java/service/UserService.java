@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-import DAOImpl.UserDAO;
+import DAO.UserDAO;
 import model.User;
 
 public class UserService implements UserDAO {
