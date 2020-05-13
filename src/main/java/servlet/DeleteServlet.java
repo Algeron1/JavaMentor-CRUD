@@ -1,19 +1,15 @@
-package servlets;
-
-import model.User;
+package servlet;
 import service.UserService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/")
-public class ListUserServlet extends HttpServlet {
+@WebServlet("/delete")
+public class DeleteServlet extends HttpServlet {
     private UserService userService;
 
     public void init() {
@@ -27,10 +23,9 @@ public class ListUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<User> listUser = userService.getAllUser();
-        request.setAttribute("listUser", listUser);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
-        dispatcher.forward(request, response);
+        int id = Integer.parseInt(request.getParameter("id"));
+        userService.deleteUser(id);
+        response.sendRedirect("list");
     }
 }
 

@@ -1,6 +1,6 @@
-package servlets;
-import service.UserService;
+package servlet;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/delete")
-public class DeleteServlet extends HttpServlet {
-    private UserService userService;
+@WebServlet("/new")
+public class NewServlet extends HttpServlet {
 
     public void init() {
-        userService = new UserService();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -23,9 +21,8 @@ public class DeleteServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        userService.deleteUser(id);
-        response.sendRedirect("list");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
+        dispatcher.forward(request, response);
     }
 }
 
