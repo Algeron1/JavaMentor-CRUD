@@ -6,7 +6,20 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-public class ConnectorJPA {
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBHelper {
+
+    private DBHelper dbHelper;
+    public DBHelper getDbHelper(){
+        if (dbHelper==null){
+            dbHelper=new DBHelper();
+        }
+        return dbHelper;
+    }
 
     private static SessionFactory sessionFactory;
 
@@ -17,7 +30,7 @@ public class ConnectorJPA {
         return sessionFactory;
     }
 
-    private static Configuration getMySqlConfiguration() {
+    public static Configuration getConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(User.class);
 
@@ -32,10 +45,35 @@ public class ConnectorJPA {
     }
 
     private static SessionFactory createSessionFactory() {
-        Configuration configuration = getMySqlConfiguration();
+        Configuration configuration = getConfiguration();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
         builder.applySettings(configuration.getProperties());
         ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    public static Connection getConnection() {
+        try {
+            DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance());
+
+            StringBuilder url = new StringBuilder();
+
+            url.
+                    append("jdbc:mysql://").        //db type
+                    append("localhost:").           //host name
+                    append("3306/").                //port
+                    append("db_example?").          //db name
+                    append("user=root&").          //login
+                    append("password=534554").       //password
+                    append("&serverTimezone=UTC");
+
+            System.out.println("URL: " + url + "\n");
+
+            java.sql.Connection connection = DriverManager.getConnection(url.toString());
+            return connection;
+        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
     }
 }

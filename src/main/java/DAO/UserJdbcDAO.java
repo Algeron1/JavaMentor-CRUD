@@ -2,7 +2,6 @@ package DAO;
 
 import DAOImpl.UserDAO;
 import model.User;
-import Util.ConnectorJDBC;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,17 +10,9 @@ import java.util.List;
 public class UserJdbcDAO implements UserDAO {
 
     private final Connection connection;
-    private static UserJdbcDAO userJdbcDAO = new UserJdbcDAO();
 
-    private UserJdbcDAO() {
-        this.connection = ConnectorJDBC.getMysqlConnection();
-    }
-
-    public static UserJdbcDAO getUserJdbcDAO() {
-        if (userJdbcDAO == null) {
-            userJdbcDAO = new UserJdbcDAO();
-        }
-        return userJdbcDAO;
+    UserJdbcDAO(Connection connection) {
+        this.connection = connection;
     }
 
     public void createTable() throws SQLException {

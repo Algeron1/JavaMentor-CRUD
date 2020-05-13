@@ -1,20 +1,30 @@
 package service;
 
-import DAO.UserHibernateDAO;
-import DAO.UserJdbcDAO;
-import DAOImpl.UserDAO;
-import model.User;
+import DAO.UserDaoFactory;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserService {
 
-    private final UserDAO userDAO = new UserHibernateDAO();
+import DAOImpl.UserDAO;
+import model.User;
+
+public class UserService implements UserDAO {
+
+    private UserDAO userDAO;
 
     public UserService() {
+        this.userDAO = getUserDAO();
     }
 
+    public UserDAO getUserDAO() {
+        if (userDAO == null) {
+            userDAO = new UserDaoFactory().getRealizationByProperty();
+        }
+        return userDAO;
+    }
+
+    @Override
     public List<User> getAllUser() {
         try {
             return userDAO.getAllUser();
@@ -24,7 +34,8 @@ public class UserService {
         return null;
     }
 
-    public User getUser(int id) {
+    @Override
+    public User getUser(long id) {
         try {
             return userDAO.getUser(id);
         } catch (SQLException throwables) {
@@ -33,14 +44,16 @@ public class UserService {
         return null;
     }
 
-    public void addUser(User newUser) {
+    @Override
+    public void addUser(User user) {
         try {
-            userDAO.addUser(newUser);
+            userDAO.addUser(user);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
+    @Override
     public void updateUser(User user) {
         try {
             userDAO.updateUser(user);
@@ -49,7 +62,8 @@ public class UserService {
         }
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteUser(long id) {
         try {
             userDAO.deleteUser(id);
         } catch (SQLException throwables) {
