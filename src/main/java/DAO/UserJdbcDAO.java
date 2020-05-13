@@ -1,5 +1,6 @@
 package DAO;
 
+import DAOImpl.UserDAO;
 import model.User;
 import Util.ConnectorJDBC;
 
@@ -7,20 +8,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserJdbcDAO implements UserDAO {
 
     private final Connection connection;
-    private static UserDAO userDAO = new UserDAO();
+    private static UserJdbcDAO userJdbcDAO = new UserJdbcDAO();
 
-    private UserDAO() {
+    private UserJdbcDAO() {
         this.connection = ConnectorJDBC.getMysqlConnection();
     }
 
-    public static UserDAO getUserDAO() {
-        if (userDAO == null) {
-            userDAO = new UserDAO();
+    public static UserJdbcDAO getUserJdbcDAO() {
+        if (userJdbcDAO == null) {
+            userJdbcDAO = new UserJdbcDAO();
         }
-        return userDAO;
+        return userJdbcDAO;
     }
 
     public void createTable() throws SQLException {
@@ -30,6 +31,7 @@ public class UserDAO {
         statement.close();
     }
 
+    @Override
     public List<User> getAllUser() throws SQLException {
         List<User> users = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
@@ -44,9 +46,10 @@ public class UserDAO {
         return users;
     }
 
-    public User getUser(int id) throws SQLException {
+    @Override
+    public User getUser(long id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users where id=?");
-        statement.setInt(1, id);
+        statement.setLong(1, id);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             String name2 = rs.getString("name");
@@ -58,6 +61,7 @@ public class UserDAO {
         return null;
     }
 
+    @Override
     public void addUser(User newUser) throws SQLException {
         if (newUser.getName().length() > 0 && newUser.getEmail().length() > 0) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO users (name, email, workplace) Values (?, ?, ?)");
@@ -71,6 +75,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public void updateUser(User user) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement(
                 "update users set name=?, email=?, workplace=? where id =?");
@@ -82,9 +87,10 @@ public class UserDAO {
         stmt.close();
     }
 
-    public void deleteUser(int id) throws SQLException {
+    @Override
+    public void deleteUser(long id) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("DELETE FROM users WHERE id =?");
-        stmt.setInt(1, id);
+        stmt.setLong(1, id);
         stmt.execute();
     }
 }

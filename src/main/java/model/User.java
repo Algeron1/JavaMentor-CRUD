@@ -1,12 +1,26 @@
 package model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
+
 public class User {
-    private long id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
     private String name;
-    private String workplace;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "workplace")
+    private String workplace;
+
 
     public User() {
     }
@@ -14,14 +28,14 @@ public class User {
     public User(String name, String email, String workplace) {
         this.name = name;
         this.workplace = workplace;
-        this.email=email;
+        this.email = email;
     }
 
     public User(long id, String name, String workplace, String email) {
         this.id = id;
         this.name = name;
         this.workplace = workplace;
-        this.email=email;
+        this.email = email;
     }
 
     public long getId() {
@@ -48,11 +62,12 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
-    public void setEmail(String email){
-        this.email=email;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -65,7 +80,6 @@ public class User {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getName());
     }
 }

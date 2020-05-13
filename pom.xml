@@ -5,13 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.javamentor</groupId>
-    <artifactId>Web3</artifactId>
+    <artifactId>PreProject</artifactId>
     <version>1.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <org.hibernate.hibernate-core.version>5.4.14.Final</org.hibernate.hibernate-core.version>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -29,5 +31,17 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>${org.hibernate.hibernate-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
     </dependencies>
+
+
 </project>
