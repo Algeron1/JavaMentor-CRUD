@@ -1,5 +1,8 @@
-package DAO;
+package factory;
 
+import DAO.UserDAO;
+import DAO.UserHibernateDAOImpl;
+import DAO.UserJdbcDAOImpl;
 import util.DBHelper;
 
 import java.io.IOException;

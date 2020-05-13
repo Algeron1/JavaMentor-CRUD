@@ -10,7 +10,7 @@ public class UserJdbcDAOImpl implements UserDAO {
 
     private final Connection connection;
 
-    UserJdbcDAOImpl(Connection connection) {
+    public UserJdbcDAOImpl(Connection connection) {
         this.connection = connection;
     }
 
