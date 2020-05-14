@@ -1,27 +1,52 @@
 package model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
+
 public class User {
-    private long id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
     private String name;
-    private String workplace;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "role")
+    private String role;
+
 
     public User() {
     }
 
-    public User(String name, String email, String workplace) {
+    public User(String name, String email, String password) {
         this.name = name;
-        this.workplace = workplace;
-        this.email=email;
+        this.password = password;
+        this.email = email;
     }
 
-    public User(long id, String name, String workplace, String email) {
+    public User(long id, String name, String password, String email) {
+        this(name, email, password);
         this.id = id;
-        this.name = name;
-        this.workplace = workplace;
-        this.email=email;
+    }
+
+    public User(String name, String email, String password, String role) {
+        this(name, email, password);
+        this.role=role;
+    }
+
+    public User(long id, String name, String email, String password, String role) {
+        this(id, name, password, email);
+        this.role=role;
     }
 
     public long getId() {
@@ -32,12 +57,12 @@ public class User {
         this.id = id;
     }
 
-    public String getWorkplace() {
-        return workplace;
+    public String getPassword() {
+        return password;
     }
 
-    public void setWorkplace(String workplace) {
-        this.workplace = workplace;
+    public void setPassword(String workplace) {
+        this.password = workplace;
     }
 
     public String getName() {
@@ -48,11 +73,20 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
-    public void setEmail(String email){
-        this.email=email;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -65,7 +99,6 @@ public class User {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getName());
     }
 }
